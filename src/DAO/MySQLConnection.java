@@ -11,7 +11,7 @@ public class MySQLConnection {
 		try {
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/doan";
+			String url = "jdbc:mysql://localhost:3306/pbl4";
 			Connection conn=  DriverManager.getConnection(url,"root","");
 			return conn;
 		} catch(Exception e) {

@@ -16,11 +16,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
-public class TestController {
+public class Controller_GDTT_Hose {
 	@FXML 
 	private TableView<GDTT_Hose> table;
 	@FXML
@@ -58,5 +63,13 @@ public class TestController {
     }
     public void refill(ActionEvent e) throws JSONException, IOException {
     	GDTT_Hose_Controller.handle();
+    }
+    public void back(ActionEvent e) throws IOException {
+    	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("Main.fxml"));
+		Parent GDTT_HoseView = loader.load();
+		Scene scene = new Scene(GDTT_HoseView);
+		stage.setScene(scene);
     }
 }
