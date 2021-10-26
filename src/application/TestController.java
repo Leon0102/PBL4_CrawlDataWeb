@@ -2,17 +2,13 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import org.json.JSONException;
 
 import Controller.GDTT_Hose_Controller;
 import DAO.GDTT_Hose_DAO;
-import DoAn.GDTT_Hose;
+import Model.GDTT_Hose;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class TestController {
 	@FXML 

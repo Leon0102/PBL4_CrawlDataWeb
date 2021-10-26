@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="582.0" prefWidth="1641.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+	<TableView fx:id="table" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="1639.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <columns>
+    <TableColumn fx:id="colId" prefWidth="93.59997254610062" text="MaCK" />
+      <TableColumn fx:id="colTC" minWidth="4.79998779296875" prefWidth="58.399993896484375" text="T.C" />
+      <TableColumn fx:id="colTran" minWidth="9.600006103515625" prefWidth="88.79995727539062" text="Trần" />
+      <TableColumn fx:id="colSan" prefWidth="89.60005187988281" text="Sàn" />
+      <TableColumn prefWidth="420.00006103515625" text="Bên mua">
+         <columns>
+            <TableColumn fx:id="colGiaMua3" prefWidth="63.20001220703125" text="Giá 3" />
+            <TableColumn fx:id="colKLMua3" prefWidth="64.0" text="KL3" />
+            <TableColumn fx:id="colGiaMua2" prefWidth="63.199951171875" text="Giá 2" />
+            <TableColumn fx:id="colKLMua2" prefWidth="56.79998779296875" text="KL2" />
+            <TableColumn fx:id="colGiaMua1" prefWidth="56.0" text="Giá 1" />
+            <TableColumn fx:id="colKLMua1" prefWidth="58.40008544921875" text="KL1" />
+         </columns>
+      </TableColumn>
+      <TableColumn prefWidth="309.59991455078125" text="Khớp lệnh">
+         <columns>
+            <TableColumn fx:id="colUpDown" prefWidth="75.0" text="+/-" />
+            <TableColumn fx:id="colGiaKL" prefWidth="75.0" text="Giá" />
+            <TableColumn fx:id="colKL" prefWidth="75.0" text="KL" />
+            <TableColumn fx:id="colTongKL" prefWidth="75.0" text="Tổng KL" />
+         </columns>
+      </TableColumn>
+      <TableColumn prefWidth="356.0" text="Bên bán">
+         <columns>
+            <TableColumn fx:id="colGiaBan1" prefWidth="57.599853515625" text="Giá 1" />
+            <TableColumn fx:id="colKLBan1" prefWidth="56.800048828125" text="KL1" />
+            <TableColumn fx:id="colGiaBan2" prefWidth="57.60009765625" text="Giá 2" />
+            <TableColumn fx:id="colKLBan2" prefWidth="55.199951171875" text="KL2" />
+            <TableColumn fx:id="colGiaBan3" prefWidth="55.199951171875" text="Giá 3" />
+            <TableColumn fx:id="colKLBan3" prefWidth="27.199951171875" text="KL3" />
+         </columns>
+      </TableColumn>
+      <TableColumn fx:id="colCao" minWidth="0.0" prefWidth="63.2000732421875" text="Cao " />
+      <TableColumn fx:id="colThap" prefWidth="64.800048828125" text="Thấp" />
+      <TableColumn prefWidth="72.800048828125" text="ĐTNN">
+            <columns>
+               <TableColumn fx:id="colNNMua" prefWidth="125.5999755859375" text="Mua" />
+            </columns></TableColumn>
+            <TableColumn fx:id="colThoiGian" prefWidth="75.0" text="Thời gian" />
+  </columns>
+</TableView>
+   <Button fx:id="Btn_Show" layoutX="242.0" layoutY="44.0" mnemonicParsing="false" onAction="#show" prefHeight="38.0" prefWidth="126.0" text="Show" />
+   <Button fx:id="Btn_Refill" layoutX="402.0" layoutY="44.0" mnemonicParsing="false" onAction="#refill" prefHeight="37.0" prefWidth="126.0" text="Refill Data" />
+</AnchorPane>

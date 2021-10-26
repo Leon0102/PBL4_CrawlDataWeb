@@ -33,7 +33,7 @@ public class JsonReader {
 	      is.close();
 	    }
 	  }
-	  public JSONArray readJsonFromUrlArr(String url) throws IOException, JSONException {
+	  public static JSONArray readJsonFromUrlArr(String url) throws IOException, JSONException {
 		    InputStream is = new URL(url).openStream();
 		    try {
 		      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));

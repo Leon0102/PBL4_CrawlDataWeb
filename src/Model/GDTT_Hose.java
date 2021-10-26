@@ -1,4 +1,4 @@
-package DoAn;
+package Model;
 
 public class GDTT_Hose {
 	   	String id;
