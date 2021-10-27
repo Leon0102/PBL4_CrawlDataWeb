@@ -103,7 +103,7 @@ public class Controller_UPCOM {
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Đầu tư Nước Ngoài");
 		 for(UPCOM items : listM) {
-			 if(items.getTotal_buy()>1000)
+			 if(items.getTotal_buy()>0)
 			 {				 
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getTotal_buy()));
 			 }
