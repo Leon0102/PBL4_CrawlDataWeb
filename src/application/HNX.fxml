@@ -9,8 +9,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="663.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_HNX">
-	<TableView fx:id="table" layoutY="279.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="663.0" prefWidth="1351.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_HNX">
+	<TableView fx:id="table" layoutX="16.0" layoutY="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <columns>
     <TableColumn fx:id="colId" editable="false" prefWidth="38.39999467134476" text="MaCK" />
       <TableColumn fx:id="colTC" editable="false" minWidth="4.79998779296875" prefWidth="35.999996185302734" text="T.C" />
@@ -46,16 +46,16 @@
       </TableColumn>
       <TableColumn fx:id="colCao" editable="false" minWidth="0.0" prefWidth="42.40008544921875" text="Cao " />
       <TableColumn fx:id="colThap" editable="false" prefWidth="53.5999755859375" text="Thấp" />
-      <TableColumn editable="false" prefWidth="196.800048828125" text="ĐTNN">
+      <TableColumn editable="false" prefWidth="116.800048828125" text="ĐTNN">
             <columns>
-               <TableColumn fx:id="colNNMua" editable="false" prefWidth="125.5999755859375" text="Mua" />
+               <TableColumn fx:id="colNNMua" editable="false" prefWidth="117.5999755859375" text="Mua" />
             </columns></TableColumn>
-            <TableColumn fx:id="colThoiGian" editable="false" prefWidth="115.20004882812509" text="Thời gian" />
+            <TableColumn fx:id="colThoiGian" editable="false" prefWidth="107.2000732421875" text="Thời gian" />
   </columns>
 </TableView>
    <Button fx:id="Btn_Show" layoutX="14.0" layoutY="160.0" mnemonicParsing="false" onAction="#show" prefHeight="38.0" prefWidth="126.0" text="Show" />
    <Button fx:id="Btn_Refill" layoutX="14.0" layoutY="223.0" mnemonicParsing="false" onAction="#refill" prefHeight="37.0" prefWidth="126.0" text="Refill Data" />
-   <BarChart fx:id="barchart" layoutX="367.0" prefHeight="264.0" prefWidth="946.0">
+   <BarChart fx:id="barchart" layoutX="367.0" prefHeight="264.0" prefWidth="946.0" styleClass="chart-bar" stylesheets="@application.css">
      <xAxis>
        <CategoryAxis animated="false" prefHeight="29.0" prefWidth="1235.0" fx:id="xAxis">
             <opaqueInsets>
