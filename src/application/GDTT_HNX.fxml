@@ -6,20 +6,20 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="692.0" prefWidth="1492.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_GDTT_HNX">
+<AnchorPane prefHeight="677.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_GDTT_Hose">
    <children>
-      <TableView fx:id="table" layoutY="279.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="1487.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+      <TableView fx:id="table" layoutX="10.0" layoutY="279.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="1318.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
         <columns>
-          <TableColumn fx:id="colId" prefWidth="107.20001220703125" text="ID" />
-          <TableColumn fx:id="colPrice" prefWidth="208.800048828125" text="Price" />
-            <TableColumn fx:id="colAmount" prefWidth="204.79998779296875" text="Amount" />
-            <TableColumn fx:id="colValue" prefWidth="242.39996337890625" text="Value" />
-            <TableColumn fx:id="colTime" prefWidth="200.7999267578125" text="Time" />
+          <TableColumn fx:id="colId" prefWidth="147.99999713897705" text="ID" />
+          <TableColumn fx:id="colPrice" prefWidth="284.0000457763672" text="Price" />
+            <TableColumn fx:id="colAmount" prefWidth="293.59991455078125" text="Amount" />
+            <TableColumn fx:id="colValue" minWidth="0.0" prefWidth="184.0" text="Value" />
+            <TableColumn fx:id="colTime" prefWidth="391.19989013671875" text="Time" />
         </columns>
       </TableView>
-      <TextField layoutX="287.0" layoutY="20.0" />
-      <Button fx:id="Btn_Show" layoutX="14.0" layoutY="178.0" mnemonicParsing="false" onAction="#show" prefHeight="38.0" prefWidth="103.0" text="Show" />
-      <Button fx:id="Btn_Refill" layoutX="15.0" layoutY="234.0" mnemonicParsing="false" onAction="#refill" prefHeight="37.0" prefWidth="103.0" text="Refill Data" />
-      <Button fx:id="Btn_Show1" layoutX="15.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="38.0" prefWidth="103.0" text="Back" />
+      <TextField layoutX="309.0" layoutY="26.0" />
+      <Button fx:id="Btn_Show" layoutX="14.0" layoutY="153.0" mnemonicParsing="false" onAction="#show" prefHeight="39.0" prefWidth="108.0" text="Show" />
+      <Button fx:id="Btn_Refill" layoutX="14.0" layoutY="226.0" mnemonicParsing="false" onAction="#refill" prefHeight="39.0" prefWidth="108.0" text="Refill Data" />
+      <Button fx:id="Btn_Show1" layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="108.0" text="Back" />
    </children>
 </AnchorPane>

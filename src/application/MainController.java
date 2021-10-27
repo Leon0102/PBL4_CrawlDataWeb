@@ -9,6 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -22,46 +25,33 @@ public class MainController {
 	private Button Btn_HNX;
 	@FXML
 	private Button Btn_UPCOM;
+	@FXML
+	private StackPane mainpane;
 	
 	
 	public void changetoGDTT_Hose(ActionEvent e) throws IOException {
-		Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("GDTT_Hose.fxml"));
-		Parent GDTT_HoseView = loader.load();
-		Scene scene = new Scene(GDTT_HoseView);
-		stage.setScene(scene);
+		Parent fxml = FXMLLoader.load(getClass().getResource("GDTT_Hose.fxml"));
+		mainpane.getChildren().removeAll();
+		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoGDTT_HNX(ActionEvent e) throws IOException {
-		Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("GDTT_HNX.fxml"));
-		Parent GDTT_HoseView = loader.load();
-		Scene scene = new Scene(GDTT_HoseView);
-		stage.setScene(scene);
+		Parent fxml = FXMLLoader.load(getClass().getResource("GDTT_HNX.fxml"));
+		mainpane.getChildren().removeAll();
+		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoHose(ActionEvent e) throws IOException {
-		Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("Hose.fxml"));
-		Parent GDTT_HoseView = loader.load();
-		Scene scene = new Scene(GDTT_HoseView);
-		stage.setScene(scene);
+		Parent fxml = FXMLLoader.load(getClass().getResource("Hose.fxml"));
+		mainpane.getChildren().removeAll();
+		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoHNX(ActionEvent e) throws IOException {
-		Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("HNX.fxml"));
-		Parent GDTT_HoseView = loader.load();
-		Scene scene = new Scene(GDTT_HoseView);
-		stage.setScene(scene);
+		Parent fxml = FXMLLoader.load(getClass().getResource("HNX.fxml"));
+		mainpane.getChildren().removeAll();
+		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoUPCOM(ActionEvent e) throws IOException {
-		Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("UPCOM.fxml"));
-		Parent GDTT_HoseView = loader.load();
-		Scene scene = new Scene(GDTT_HoseView);
-		stage.setScene(scene);
+		Parent fxml = FXMLLoader.load(getClass().getResource("UPCOM.fxml"));
+		mainpane.getChildren().removeAll();
+		mainpane.getChildren().setAll(fxml);
 	}
 }
