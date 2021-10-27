@@ -90,4 +90,46 @@ public static ObservableList<HNX> findAll(){
 			e.printStackTrace();
 		}
 	}
+public static ObservableList<HNX> findTop(){
+		
+		Connection conn = MySQLConnection.connectDb();
+		ObservableList<HNX> data = FXCollections.observableArrayList();
+		try {
+			String query = "SELECT * FROM `hnx` ORDER BY tc ASC LIMIT 30";
+			PreparedStatement stm = conn .prepareStatement(query);
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+
+				HNX ck = new HNX();
+				ck.setId(rs.getString(1));
+				ck.setRefer(rs.getDouble(2));
+				ck.setCeiling(rs.getDouble(3));
+				ck.setFloor(rs.getDouble(4));
+				ck.setBuy_Price3(rs.getDouble(5));
+				ck.setBuy_Amount3(rs.getDouble(6));
+				ck.setBuy_Price2(rs.getDouble(7));
+				ck.setBuy_Amount2(rs.getDouble(8));
+				ck.setBuy_Price1(rs.getDouble(9));
+				ck.setBuy_Amount1(rs.getDouble(10));
+				ck.setUpDownOrder(rs.getDouble(11));
+				ck.setOrder_Price(rs.getDouble(12));
+				ck.setOrder_Amount(rs.getDouble(13));
+				ck.setTotalAmount(rs.getDouble(14));
+				ck.setSell_Price1(rs.getDouble(15));
+				ck.setSell_Amount1(rs.getDouble(16));
+				ck.setSell_Price2(rs.getDouble(17));
+				ck.setSell_Amount2(rs.getDouble(18));
+				ck.setSell_Price3(rs.getDouble(19));
+				ck.setSell_Amount3(rs.getDouble(20));
+				ck.setHigh(rs.getDouble(21));
+				ck.setLow(rs.getDouble(22));
+				ck.setTime(rs.getString(23));
+				ck.setTotal_buy(rs.getDouble(24));
+				data.add(ck);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
 }

@@ -22,10 +22,12 @@ import javafx.scene.Scene;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -91,14 +93,17 @@ public class Controller_UPCOM {
 	private CategoryAxis xAxis;
 	@FXML
 	private NumberAxis yAxis;
+	@FXML
+	Label dateTime;
+	@FXML
+	private LineChart<String, Double> linechart;
 	
+	static ObservableList<UPCOM> listM = FXCollections.observableArrayList();
 	
-	ObservableList<UPCOM> listM = FXCollections.observableArrayList();
-	
-	 public void initialize(URL location, ResourceBundle resources) {
-         
-	    }
-	 public void barchart_show() {
+	public void initialize() {
+	    Handle.initClock(dateTime);
+	}
+	 public static void barchart_show(LineChart lc, BarChart bc) {
 		 listM = UPCOM_DAO.findAll();
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Đầu tư Nước Ngoài");
@@ -108,7 +113,22 @@ public class Controller_UPCOM {
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getTotal_buy()));
 			 }
 		 }
-		 barchart.getData().add(series);
+		 if(lc != null)
+		 {
+		 lc.getData().add(series);
+		 }
+		 else {			 
+			 bc.getData().add(series);
+		 }
+	 }
+	 public static void linechart_show(LineChart lc) {
+		 listM = UPCOM_DAO.findTop();
+		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
+		 series.setName("Đồ thị Tham Chiếu Top 30");
+		 for(UPCOM items : listM) {				 
+				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getRefer()));
+		 }
+		 lc.getData().add(series);
 	 }
 	 public void show(ActionEvent e) {
 	    	
@@ -143,7 +163,8 @@ public class Controller_UPCOM {
 	    	listM = UPCOM_DAO.findAll();
 	    	
 	    	table.setItems(listM);
-	    	barchart_show();
+	    	barchart.getData().clear();
+	    	barchart_show(null, barchart);
 	    	}catch(Exception e1) {
 	    		e1.printStackTrace();
 	    	}

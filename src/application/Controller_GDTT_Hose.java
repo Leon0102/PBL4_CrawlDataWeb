@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -42,12 +43,14 @@ public class Controller_GDTT_Hose {
     private TableColumn<GDTT_Hose, Double> colValue;
     @FXML
     private TableColumn<GDTT_Hose, String> colTime;
+    @FXML
+	Label dateTime;
     
     ObservableList<GDTT_Hose> listM = FXCollections.observableArrayList();
     
-    public void initialize(URL location, ResourceBundle resources) {
-            
-    }
+    public void initialize() {
+    	Handle.initClock(dateTime);
+	}
     public void show(ActionEvent e) {
     	
     	
