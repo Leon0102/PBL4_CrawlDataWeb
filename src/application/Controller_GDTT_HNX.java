@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import org.json.JSONException;
 
 import Controller.GDTT_HNX_Controller;
+import Controller.GDTT_Hose_Controller;
 import DAO.GDTT_HNX_DAO;
 import Model.GDTT_HNX;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -65,7 +66,13 @@ public class Controller_GDTT_HNX {
     	table.setItems(listM);
     }
     public void refill(ActionEvent e) throws JSONException, IOException {
-    	GDTT_HNX_Controller.handle();
+    	if(table.getItems().isEmpty())
+    	{
+    		GDTT_Hose_Controller.handle();
+    	}
+    	else {
+    		GDTT_Hose_Controller.update();
+    	}
     }
     public void back(ActionEvent e) throws IOException {
     	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();

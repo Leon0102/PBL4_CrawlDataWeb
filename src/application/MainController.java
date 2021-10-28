@@ -109,4 +109,9 @@ public class MainController {
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}
+	public void changetoMail(ActionEvent e) throws IOException {
+		Parent fxml = FXMLLoader.load(getClass().getResource("SendMail.fxml"));
+		mainpane.getChildren().removeAll();
+		mainpane.getChildren().setAll(fxml);
+	}
 }

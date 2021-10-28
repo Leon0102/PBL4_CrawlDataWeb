@@ -67,7 +67,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: #3196E2; -fx-text-fill: #FFF; -fx-border-radius: 5; -fx-background-radius: 5;" text="MAIL">
+            <Button mnemonicParsing="false" onAction="#changetoMail" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: #3196E2; -fx-text-fill: #FFF; -fx-border-radius: 5; -fx-background-radius: 5;" text="MAIL">
                <VBox.margin>
                   <Insets bottom="10.0" left="13.0" top="10.0" />
                </VBox.margin>

@@ -3,9 +3,12 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONException;
 
+import Controller.GDTT_Hose_Controller;
 import Controller.UPCOM_Controller;
 import DAO.UPCOM_DAO;
 import Model.UPCOM;
@@ -102,8 +105,30 @@ public class Controller_UPCOM {
 	
 	public void initialize() {
 	    Handle.initClock(dateTime);
+	    new Timer().scheduleAtFixedRate(new TimerTask(){
+		    @Override
+		    public void run(){
+		       try {
+				refill();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    }
+		},0,5000);	
+		new Timer().scheduleAtFixedRate(new TimerTask(){
+		    @Override
+		    public void run(){
+		       show();
+		    }
+		},0,5000);	
+    	barchart.getData().clear();
+    	barchart_show(barchart);
 	}
-	 public static void barchart_show(LineChart lc, BarChart bc) {
+	 public static void barchart_show(BarChart bc) {
 		 listM = UPCOM_DAO.findAll();
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Đầu tư Nước Ngoài");
@@ -112,14 +137,8 @@ public class Controller_UPCOM {
 			 {				 
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getTotal_buy()));
 			 }
-		 }
-		 if(lc != null)
-		 {
-		 lc.getData().add(series);
-		 }
-		 else {			 
+		 }		 
 			 bc.getData().add(series);
-		 }
 	 }
 	 public static void linechart_show(LineChart lc) {
 		 listM = UPCOM_DAO.findTop();
@@ -130,7 +149,7 @@ public class Controller_UPCOM {
 		 }
 		 lc.getData().add(series);
 	 }
-	 public void show(ActionEvent e) {
+	 public void show() {
 	    	
 	    	try {
 	    		
@@ -164,13 +183,19 @@ public class Controller_UPCOM {
 	    	
 	    	table.setItems(listM);
 	    	barchart.getData().clear();
-	    	barchart_show(null, barchart);
+	    	barchart_show(barchart);
 	    	}catch(Exception e1) {
 	    		e1.printStackTrace();
 	    	}
 	    }
-	    public void refill(ActionEvent e) throws JSONException, IOException {
-	    	UPCOM_Controller.handle();
+	    public void refill() throws JSONException, IOException {
+	    	if(table.getItems().isEmpty())
+	    	{
+	    		GDTT_Hose_Controller.handle();
+	    	}
+	    	else {
+	    		GDTT_Hose_Controller.update();
+	    	}
 	    }
 	    public void back(ActionEvent e) throws IOException {
 	    	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();

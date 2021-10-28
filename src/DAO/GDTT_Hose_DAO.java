@@ -49,4 +49,21 @@ public static ObservableList<GDTT_Hose> findAll(){
 			e.printStackTrace();
 		}
 	}
+	public void update(GDTT_Hose ck) {
+		try {
+			Connection con = MySQLConnection.connectDb();
+			String query = "UPDATE `gdtt_hose` SET `id`=? ,`price`=?, `amount`=?, `value`=?, `time`=? WHERE id ='"+ck.getId()+"'";
+			PreparedStatement stm = con.prepareStatement(query);
+			stm.setString(1, ck.getId());
+			stm.setDouble(2, (ck.getPrice()));
+			stm.setInt(3, (ck.getAmount()));
+			stm.setDouble(4, ck.getValue());
+			stm.setString(5, ck.getTime());
+			stm.executeUpdate();
+			stm.close();
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

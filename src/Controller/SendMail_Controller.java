@@ -4,9 +4,12 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
+import Model.Hose;
+import javafx.collections.ObservableList;
+
 public class SendMail_Controller {
 
-   public static void main(String[] args) {
+   public static void sendmail(String s, ObservableList<Hose> listM) {
        try {
            Email email = new SimpleEmail();
 
@@ -26,10 +29,18 @@ public class SendMail_Controller {
            email.setSubject("Test Email");
 
            // Nội dung email
-           email.setMsg("This is a test mail ... :-)");
+           String docs= "";
+           for(Hose items : listM)
+           {
+        	   if( items.getTime() != "null")
+        	   {
+        		   docs	+=items.getTime() +"    Refer:    " + items.getRefer() +"    Ceiling: " + items.getCeiling() +"\n";        		   
+        	   }
+           }
+           email.setMsg(docs);        	   
 
            // Người nhận
-           email.addTo(SMailConstant.FRIEND_EMAIL);
+           email.addTo(s);
            email.send();
            System.out.println("Sent!!");
        } catch (Exception e) {

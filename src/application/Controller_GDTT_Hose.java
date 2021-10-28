@@ -61,11 +61,16 @@ public class Controller_GDTT_Hose {
     	colTime.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue().getTime()));
     	
     	listM = GDTT_Hose_DAO.findAll();
-    	
     	table.setItems(listM);
     }
     public void refill(ActionEvent e) throws JSONException, IOException {
-    	GDTT_Hose_Controller.handle();
+    	if(table.getItems().isEmpty())
+    	{
+    		GDTT_Hose_Controller.handle();
+    	}
+    	else {
+    		GDTT_Hose_Controller.update();
+    	}
     }
     public void back(ActionEvent e) throws IOException {
     	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
