@@ -192,7 +192,6 @@ public class Controller_HNX {
 	    	else {
 	    		HNX_Controller.update();
 	    	}
-	    	Handle.infoBox("Completed",null,"Success" );
 	    }
 	    public void back(ActionEvent e) throws IOException {
 	    	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();

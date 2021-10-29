@@ -107,16 +107,19 @@ public class Controller_UPCOM {
 	private LineChart<String, Double> linechart;
 	
 	static ObservableList<UPCOM> listM = FXCollections.observableArrayList();
-	
+    static Timer t = new Timer();
 	public void initialize() {
 	    Handle.initClock(dateTime);
 	    show();
-	    new Timer().scheduleAtFixedRate(new TimerTask(){
+	    t.scheduleAtFixedRate(new TimerTask(){
 		    @Override
 		    public void run(){
 		    	Platform.runLater(() -> {
 	                try {
 						refill();
+						show();
+						barchart.getData().clear();
+						barchart_show(barchart);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -124,13 +127,11 @@ public class Controller_UPCOM {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	                show();
-	        		barchart.getData().clear();
-	            	barchart_show(barchart);
 	            });
 		    }
 		},1000,30000);	
 	}
+	
 	 public static void barchart_show(BarChart bc) {
 		 listM = UPCOM_DAO.findAll();
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
@@ -199,7 +200,6 @@ public class Controller_UPCOM {
 	    	else {
 	    		UPCOM_Controller.update();
 	    	}
-	    	Handle.infoBox("Completed",null,"Success" );
 	    }
 	    public void back(ActionEvent e) throws IOException {
 	    	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();

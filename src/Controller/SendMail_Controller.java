@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.Properties;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
@@ -9,8 +11,14 @@ import javafx.collections.ObservableList;
 
 public class SendMail_Controller {
 
-   public static void sendmail(String s, ObservableList<Hose> listM) {
+   public static void sendmail(String s, String kq) {
+	   
        try {
+    	   	Properties props = new Properties();
+   			props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
+   			props.put("mail.smtp.port", "587"); //TLS Port
+   			props.put("mail.smtp.auth", "true"); //enable authentication
+   			props.put("mail.smtp.starttls.enable", "true"); //enable 
            Email email = new SimpleEmail();
 
            // Cấu hình thông tin Email Server
@@ -29,15 +37,8 @@ public class SendMail_Controller {
            email.setSubject("Test Email");
 
            // Nội dung email
-           String docs= "";
-           for(Hose items : listM)
-           {
-        	   if( items.getTime() != "null")
-        	   {
-        		   docs	+=items.getTime() +"    Refer:    " + items.getRefer() +"    Ceiling: " + items.getCeiling() +"\n";        		   
-        	   }
-           }
-           email.setMsg(docs);        	   
+
+           email.setMsg(kq);        	   
 
            // Người nhận
            email.addTo(s);

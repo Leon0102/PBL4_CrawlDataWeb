@@ -71,7 +71,7 @@ public class Controller_GDTT_HNX {
 	                show();
 	            });
 		    }
-		},1000,10000);	
+		},1000,5000);	
 	}
     public void show() {
     	
@@ -89,12 +89,11 @@ public class Controller_GDTT_HNX {
     public void refill() throws JSONException, IOException {
     	if(table.getItems().isEmpty())
     	{
-    		GDTT_Hose_Controller.handle();
+    		GDTT_HNX_Controller.handle();
     	}
     	else {
-    		GDTT_Hose_Controller.update();
+    		GDTT_HNX_Controller.update();
     	}
-    	Handle.infoBox("Completed",null,"Success" );
     }
     public void back(ActionEvent e) throws IOException {
     	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
