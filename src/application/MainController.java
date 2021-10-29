@@ -85,32 +85,32 @@ public class MainController {
 		}
 	}
 	public void changetoGDTT_Hose(ActionEvent e) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("GDTT_Hose.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/application_FXML/GDTT_Hose.fxml"));
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoGDTT_HNX(ActionEvent e) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("GDTT_HNX.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/application_FXML/GDTT_HNX.fxml"));
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoHose(ActionEvent e) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("Hose.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/application_FXML/Hose.fxml"));
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoHNX(ActionEvent e) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("HNX.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/application_FXML/HNX.fxml"));
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoUPCOM(ActionEvent e) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("UPCOM.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/application_FXML/UPCOM.fxml"));
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}
 	public void changetoMail(ActionEvent e) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("SendMail.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/application_FXML/SendMail.fxml"));
 		mainpane.getChildren().removeAll();
 		mainpane.getChildren().setAll(fxml);
 	}

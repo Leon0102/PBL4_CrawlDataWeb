@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
@@ -18,4 +20,11 @@ public class Handle {
 	    clock.setCycleCount(Animation.INDEFINITE);
 	    clock.play();
 	}
+	public static void infoBox(String infoMessage, String headerText, String title){
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setContentText(infoMessage);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
+    }
 }

@@ -28,6 +28,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Controller_GDTT_Hose {
 	@FXML 
@@ -92,6 +94,7 @@ public class Controller_GDTT_Hose {
     	else {
     		GDTT_Hose_Controller.update();
     	}
+    	Handle.infoBox("Completed",null,"Success" );
     }
     public void back(ActionEvent e) throws IOException {
     	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();

@@ -13,9 +13,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/application_FXML/Main.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/application_FXML/application.css").toExternalForm());
 			primaryStage.getIcons().add(new Image("https://static.thenounproject.com/png/161182-200.png"));
 			primaryStage.setTitle("Stock Data Analysis Application");
 			primaryStage.setScene(scene);
