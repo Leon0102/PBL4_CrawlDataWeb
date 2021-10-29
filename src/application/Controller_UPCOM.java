@@ -122,10 +122,10 @@ public class Controller_UPCOM {
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 		    @Override
 		    public void run(){
-		       show();
+		    	show();
 		    }
 		},0,5000);	
-    	barchart.getData().clear();
+		barchart.getData().clear();
     	barchart_show(barchart);
 	}
 	 public static void barchart_show(BarChart bc) {
