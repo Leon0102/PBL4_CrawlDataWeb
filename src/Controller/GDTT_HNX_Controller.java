@@ -40,4 +40,28 @@ public class GDTT_HNX_Controller {
 			
 		}
 	}
+	public static void update() throws JSONException, IOException {
+		JSONObject json = JsonReader.readJsonFromUrl("https://banggia.cafef.vn/TTHandler.ashx?center=2");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			JsonNode jsonNode = mapper.readTree(json.toString());
+	        JsonNode arrNode =  jsonNode.get("_1");
+	        ArrayList<GDTT_HNX> listCK = new ArrayList<>();
+	        if (arrNode.isArray()) {
+	        	GDTT_HNX_DAO db = new GDTT_HNX_DAO();
+	            for (final JsonNode objNode : arrNode) {
+	            	GDTT_HNX ck = new GDTT_HNX();
+	            	ck.setId(objNode.get("e").asText());
+	            	ck.setPrice(objNode.get("f").asDouble());
+	            	ck.setAmount(objNode.get("g").asInt());
+	            	ck.setValue(objNode.get("h").asDouble());
+	            	ck.setTime(objNode.get("i").asText());
+	            	listCK.add(ck);
+	            	db.update(ck);
+	            }
+	        }
+		} catch(Exception e) {
+			
+		}
+	}
 }

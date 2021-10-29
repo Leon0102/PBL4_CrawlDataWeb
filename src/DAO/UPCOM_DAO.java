@@ -136,13 +136,13 @@ public static ObservableList<UPCOM> findTop(){
 public void update(UPCOM ck) {
 	try {
 		Connection con = MySQLConnection.connectDb();
-		String query = "UPDATE `upcom` SET `id`='[value-1]',`tc`='[value-2]',`tran`='[value-3]',`san`='[value-4]',`mua_gia3`='[value-5]',"
-				+ "`mua_kl3`='[value-6]',`mua_gia2`='[value-7]',`mua_kl2`='[value-8]',`mua_gia1`='[value-9]',`mua_kl1`='[value-10]',"
-				+ "`khoplenh_hieuso`='[value-11]',`khoplenh_gia`='[value-12]',`khoplenh_kl`='[value-13]',`khoplenh_tongkl`='[value-14]',"
-				+ "`ban_gia1`='[value-15]',`ban_kl1`='[value-16]',`ban_gia2`='[value-17]',`ban_kl2`='[value-18]',`ban_gia3`='[value-19]',"
-				+ "`ban_kl3`='[value-20]',`cao`='[value-21]',`thap`='[value-22]',`time`='[value-23]',`total_buy`='[value-24]' WHERE id='"+ck.getId()+"'";
+		String query = "UPDATE `upcom` SET `id`='?',`tc`='?',`tran`='?',`san`='?',`mua_gia3`='?',"
+				+ "`mua_kl3`='?',`mua_gia2`='?',`mua_kl2`='?',`mua_gia1`='?',`mua_kl1`='?',"
+				+ "`khoplenh_hieuso`='?',`khoplenh_gia`='?',`khoplenh_kl`='?',`khoplenh_tongkl`='?',"
+				+ "`ban_gia1`='?',`ban_kl1`='?',`ban_gia2`='?',`ban_kl2`='?',`ban_gia3`='?',"
+				+ "`ban_kl3`='?',`cao`='?',`thap`='?',`time`='?',`total_buy`='?' WHERE id='"+ck.getId()+"'";
 		PreparedStatement stm = con.prepareStatement(query);
-		stm.setString(1, ck.getId());
+		stm.setString(1, (ck.getId()));
 		stm.setDouble(2, (ck.getRefer()));
 		stm.setDouble(3, (ck.getCeiling()));
 		stm.setDouble(4, (ck.getFloor()));

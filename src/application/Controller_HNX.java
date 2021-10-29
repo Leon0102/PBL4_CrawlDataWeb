@@ -179,8 +179,8 @@ public class Controller_HNX {
 	    	listM = HNX_DAO.findAll();
 	    	
 	    	table.setItems(listM);
-	    	barchart.getData().clear();
-	    	barchart_show(barchart);
+//	    	barchart.getData().clear();
+//	    	barchart_show(barchart);
 	    	}catch(Exception e1) {
 	    		e1.printStackTrace();
 	    	}
@@ -188,10 +188,10 @@ public class Controller_HNX {
 	    public void refill() throws JSONException, IOException {
 	    	if(table.getItems().isEmpty())
 	    	{
-	    		GDTT_Hose_Controller.handle();
+	    		HNX_Controller.handle();
 	    	}
 	    	else {
-	    		GDTT_Hose_Controller.update();
+	    		HNX_Controller.update();
 	    	}
 	    }
 	    public void back(ActionEvent e) throws IOException {

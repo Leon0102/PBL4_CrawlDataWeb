@@ -3,6 +3,8 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONException;
 
@@ -51,8 +53,28 @@ public class Controller_GDTT_HNX {
     
     public void initialize() {
     	Handle.initClock(dateTime);
+    	new Timer().scheduleAtFixedRate(new TimerTask(){
+		    @Override
+		    public void run(){
+		       try {
+				refill();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    }
+		},0,5000);	
+		new Timer().scheduleAtFixedRate(new TimerTask(){
+		    @Override
+		    public void run(){
+		       show();
+		    }
+		},0,5000);	
 	}
-    public void show(ActionEvent e) {
+    public void show() {
     	
     	
     	colId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
@@ -65,7 +87,7 @@ public class Controller_GDTT_HNX {
     	
     	table.setItems(listM);
     }
-    public void refill(ActionEvent e) throws JSONException, IOException {
+    public void refill() throws JSONException, IOException {
     	if(table.getItems().isEmpty())
     	{
     		GDTT_Hose_Controller.handle();
