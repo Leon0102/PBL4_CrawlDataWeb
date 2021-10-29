@@ -12,6 +12,7 @@ import Controller.GDTT_Hose_Controller;
 import Controller.Hose_Controller;
 import DAO.Hose_DAO;
 import Model.Hose;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -105,28 +106,26 @@ public class Controller_Hose {
 	
 	public void initialize() {
 		Handle.initClock(dateTime);
+		show();
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 		    @Override
 		    public void run(){
-		       try {
-				refill();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		    	Platform.runLater(() -> {
+	                try {
+						refill();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                show();
+	            	barchart.getData().clear();
+	            	barchart_show(barchart);
+	            });
 		    }
-		},0,5000);	
-		new Timer().scheduleAtFixedRate(new TimerTask(){
-		    @Override
-		    public void run(){
-		       show();
-		    }
-		},0,5000);	
-    	barchart.getData().clear();
-    	barchart_show(barchart);
+		},1000,30000);	
 	}
 	 public static void barchart_show(BarChart bc) {
 		 listM = Hose_DAO.findAll();

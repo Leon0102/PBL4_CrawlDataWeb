@@ -12,6 +12,7 @@ import Controller.GDTT_HNX_Controller;
 import Controller.GDTT_Hose_Controller;
 import DAO.GDTT_HNX_DAO;
 import Model.GDTT_HNX;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -53,26 +54,24 @@ public class Controller_GDTT_HNX {
     
     public void initialize() {
     	Handle.initClock(dateTime);
+    	show();
     	new Timer().scheduleAtFixedRate(new TimerTask(){
 		    @Override
 		    public void run(){
-		       try {
-				refill();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		    	Platform.runLater(() -> {
+	                try {
+						refill();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	                show();
+	            });
 		    }
-		},0,5000);	
-		new Timer().scheduleAtFixedRate(new TimerTask(){
-		    @Override
-		    public void run(){
-		       show();
-		    }
-		},0,5000);	
+		},1000,10000);	
 	}
     public void show() {
     	
