@@ -2,6 +2,8 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Email_DAO {
 
@@ -17,5 +19,22 @@ public class Email_DAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public static String GetEmail()
+	{
+		String email=" ";
+		Connection conn = MySQLConnection.connectDb();
+		String query="SELECT * FROM `email`";
+		PreparedStatement stm;
+		try {
+			stm = conn.prepareStatement(query);
+			ResultSet rs = stm.executeQuery();
+			rs.next();
+			email= rs.getString("Email");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return email;
 	}
 }

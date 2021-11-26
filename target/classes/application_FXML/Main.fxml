@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -77,7 +78,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: #3196E2; -fx-text-fill: #FFF; -fx-border-radius: 5; -fx-background-radius: 5;" text="ANALYSIS">
+            <Button mnemonicParsing="false" onAction="#changetoNews" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: #3196E2; -fx-text-fill: #FFF; -fx-border-radius: 5; -fx-background-radius: 5;" text="NEWS">
                <VBox.margin>
                   <Insets bottom="10.0" left="13.0" top="10.0" />
                </VBox.margin>
@@ -87,6 +88,17 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
+            <Button mnemonicParsing="false" onAction="#changetoMain" prefHeight="50.0" prefWidth="115.0" style="-fx-background-color: #3196E2; -fx-text-fill: #FFF; -fx-border-radius: 5; -fx-background-radius: 5;" text="ANALYSIS">
+               <font>
+                  <Font name="Trebuchet MS Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="13.0" top="10.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
       <Pane fx:id="mainpane" layoutX="143.0" prefHeight="692.0" prefWidth="1349.0">
@@ -95,7 +107,7 @@
                <font>
                   <Font name="Century Gothic" size="16.0" />
                </font></Label>
-            <LineChart fx:id="linechart" animated="false" layoutX="22.0" layoutY="77.0" prefHeight="604.0" prefWidth="1316.0">
+            <LineChart fx:id="linechart" animated="false" layoutX="14.0" layoutY="79.0" prefHeight="295.0" prefWidth="696.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" fx:id="xAxis" />
               </xAxis>
@@ -109,6 +121,22 @@
                   <Font name="Malgun Gothic" size="16.0" />
                </font>
             </Label>
+            <BarChart fx:id="barchart" animated="false" layoutX="16.0" layoutY="381.0" prefHeight="289.0" prefWidth="696.0">
+              <xAxis>
+                <CategoryAxis side="LEFT" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis />
+              </yAxis>
+            </BarChart>
+            <BarChart fx:id="barchart1" animated="false" layoutX="722.0" layoutY="95.0" prefHeight="558.0" prefWidth="607.0">
+               <xAxis>
+                  <CategoryAxis side="LEFT" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis />
+               </yAxis>
+            </BarChart>
          </children>
       </Pane>
    </children>

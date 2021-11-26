@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="126.0" prefWidth="390.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_FillMail">
+   <children>
+      <Label layoutX="25.0" layoutY="35.0" text="Email" textFill="#235dee">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmail" layoutX="100.0" layoutY="30.0" prefHeight="34.0" prefWidth="245.0">
+         <font>
+            <Font name="Calibri" size="17.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnNext" layoutX="143.0" layoutY="78.0" mnemonicParsing="false" onAction="#SaveEmail" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: #3196E2; -fx-background-radius: 5; -fx-border-radius: 5;" text="Tiếp tục" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

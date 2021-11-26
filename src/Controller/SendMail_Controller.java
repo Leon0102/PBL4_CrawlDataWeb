@@ -1,12 +1,12 @@
 package Controller;
 
 import java.util.Properties;
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
-import Model.Hose;
+
+import Model.Exchange;
 import javafx.collections.ObservableList;
 
 public class SendMail_Controller {

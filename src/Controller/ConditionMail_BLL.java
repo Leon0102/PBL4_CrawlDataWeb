@@ -1,17 +1,26 @@
 package Controller;
 
+import java.sql.SQLException;
+
 import DAO.ConditionMail_DAO;
-import DAO.Hose_DAO;
+import DAO.Exchange_DAO;
 import Model.ConditionMail;
-import Model.Hose;
+import Model.Exchange;
 import Model.Selected_Condition;
 import Model.ConditionComponent;
-import javafx.collections.ObservableList;
 
 public class ConditionMail_BLL {
 	public static void InsertConditionMail(ConditionMail c)
 	{
-		 ConditionMail_DAO.InsertConditionMail(c);
+		try {
+			if(ConditionMail_DAO.IsExistStock(c.IdStock))
+				ConditionMail_DAO.UpdateConditionMail(c);
+			else 
+				ConditionMail_DAO.InsertConditionMail(c);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static ConditionMail GetConditionMail(String idStock)
 	{
@@ -37,13 +46,13 @@ public class ConditionMail_BLL {
 				c_dtnn.End
 				);
 		
-		
+		System.out.print(c.AmountStart+"-"+c.AmountEnd);
 		return c;
 	}
-	public static String NotifyStock(String idStock)
+	public static String NotifyStock(String idStock, String exchangeName)
 	{
 		String rs="\n"+idStock;
-		Hose n= Hose_DAO.GetStock(idStock);
+		Exchange n= Exchange_DAO.GetStock(idStock,exchangeName);
 		Selected_Condition selected=ConditionMail_DAO.GetSelectedCondition(idStock);
 		ConditionMail c=GetConditionMail(idStock);
 		if(selected.PriceKL==1) {

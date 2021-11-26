@@ -8,10 +8,13 @@ import java.util.TimerTask;
 
 import org.json.JSONException;
 
-import Controller.GDTT_Hose_Controller;
-import Controller.HNX_Controller;
-import DAO.HNX_DAO;
-import Model.HNX;
+import Controller.Exchange_Controller;
+import Controller.GDTT_Exchange_Controller;
+import Controller.JsonReader;
+import Controller.Exchange_Controller;
+import DAO.Exchange_DAO;
+import Model.Exchange;
+import Model.GDTT_Exchange;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,72 +26,78 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class Controller_HNX {
 	@FXML
-	private TableView<HNX> table;
+	private TableView<Exchange> table;
 	@FXML
     private Button Btn_Show;
 	@FXML
     private Button Btn_Refill;
 	@FXML
-	private TableColumn<HNX, String> colId;
+	private TableColumn<Exchange, String> colId;
 	@FXML
-	private TableColumn<HNX, Double> colTC;
+	private TableColumn<Exchange, Double> colTC;
 	@FXML
-	private TableColumn<HNX, Double> colTran;
+	private TableColumn<Exchange, Double> colTran;
 	@FXML
-	private TableColumn<HNX, Double> colSan;
+	private TableColumn<Exchange, Double> colSan;
 	@FXML
-	private TableColumn<HNX, Double> colGiaMua3;
+	private TableColumn<Exchange, Double> colGiaMua3;
 	@FXML
-	private TableColumn<HNX, Double> colKLMua3;
+	private TableColumn<Exchange, Double> colKLMua3;
 	@FXML
-	private TableColumn<HNX, Double> colGiaMua2;
+	private TableColumn<Exchange, Double> colGiaMua2;
 	@FXML
-	private TableColumn<HNX, Double> colKLMua2;
+	private TableColumn<Exchange, Double> colKLMua2;
 	@FXML
-	private TableColumn<HNX, Double> colGiaMua1;
+	private TableColumn<Exchange, Double> colGiaMua1;
 	@FXML
-	private TableColumn<HNX, Double> colKLMua1;
+	private TableColumn<Exchange, Double> colKLMua1;
 	@FXML
-	private TableColumn<HNX, Double> colUpDown;
+	private TableColumn<Exchange, Double> colUpDown;
 	@FXML
-	private TableColumn<HNX, Double> colGiaKL;
+	private TableColumn<Exchange, Double> colGiaKL;
 	@FXML
-	private TableColumn<HNX, Double> colKL;
+	private TableColumn<Exchange, Double> colKL;
 	@FXML
-	private TableColumn<HNX, Double> colTongKL;
+	private TableColumn<Exchange, Double> colTongKL;
 	@FXML
-	private TableColumn<HNX, Double> colGiaBan1;
+	private TableColumn<Exchange, Double> colGiaBan1;
 	@FXML
-	private TableColumn<HNX, Double> colKLBan1;
+	private TableColumn<Exchange, Double> colKLBan1;
 	@FXML
-	private TableColumn<HNX, Double> colGiaBan2;
+	private TableColumn<Exchange, Double> colGiaBan2;
 	@FXML
-	private TableColumn<HNX, Double> colKLBan2;
+	private TableColumn<Exchange, Double> colKLBan2;
 	@FXML
-	private TableColumn<HNX, Double> colGiaBan3;
+	private TableColumn<Exchange, Double> colGiaBan3;
 	@FXML
-	private TableColumn<HNX, Double> colKLBan3;
+	private TableColumn<Exchange, Double> colKLBan3;
 	@FXML
-	private TableColumn<HNX, Double> colCao;
+	private TableColumn<Exchange, Double> colCao;
 	@FXML
-	private TableColumn<HNX, Double> colThap;
+	private TableColumn<Exchange, Double> colThap;
 	@FXML
-	private TableColumn<HNX, Double> colNNMua;
+	private TableColumn<Exchange, Double> colNNMua;
 	@FXML
-	private TableColumn<HNX, String> colThoiGian;
+	private TableColumn<Exchange, String> colThoiGian;
 	@FXML
 	private BarChart<String, Double> barchart;
 	@FXML
@@ -99,7 +108,24 @@ public class Controller_HNX {
 	Label dateTime;
 	@FXML
 	private LineChart<String, Double> linechart;
-	static ObservableList<HNX> listM = FXCollections.observableArrayList();
+	@FXML
+    private Label responseCode;
+    @FXML
+    private Circle circle;
+    
+    public void responseCodeChange() throws IOException {
+    	int code = JsonReader.getResponseCode("https://banggia.cafef.vn/stockhandler.ashx?center=2");
+    	String kq = String.valueOf(code);
+    	responseCode.setText(kq);
+    	if(kq.equals("200"))
+    	{
+    		circle.setFill(Color.GREEN);    		
+    	}else {
+    		circle.setFill(Color.RED);
+    	}
+    }
+	
+	static ObservableList<Exchange> listM = FXCollections.observableArrayList();
 	
 	public void initialize() {
 		Handle.initClock(dateTime);
@@ -110,25 +136,19 @@ public class Controller_HNX {
 		    	Platform.runLater(() -> {
 	                try {
 						refill();
-					} catch (JSONException e) {
+					} catch (JSONException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	                show();
-	            	barchart.getData().clear();
-	            	barchart_show(barchart);
+					} 
 	            });
 		    }
-		},1000,30000);	
+		},3000,300000);	
 	}
 	 public static void barchart_show(BarChart bc) {
-		 listM = HNX_DAO.findAll();
+		 listM = Exchange_DAO.findAll("hnx");
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Đầu tư Nước Ngoài");
-		 for(HNX items : listM) {
+		 for(Exchange items : listM) {
 			 if(items.getTotal_buy()>100)
 			 {				 
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getTotal_buy()));
@@ -137,10 +157,10 @@ public class Controller_HNX {
 			 bc.getData().add(series);
 	 }
 	 public static void linechart_show(LineChart lc) {
-		 listM = HNX_DAO.findTop();
+		 listM = Exchange_DAO.findTop("hnx");
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Tham Chiếu Top 30");
-		 for(HNX items : listM) {			 
+		 for(Exchange items : listM) {			 
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getRefer()));
 		 }
 		 lc.getData().add(series);
@@ -148,7 +168,8 @@ public class Controller_HNX {
 	 public void show() {
 	    	
 	    	try {
-	    		
+	    	responseCodeChange();
+	    	
 	    	colId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
 	    	colTC.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getRefer()).asObject());
 	    	colTran.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().getCeiling()).asObject());
@@ -174,12 +195,100 @@ public class Controller_HNX {
 	    	colNNMua.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().getTotal_buy()).asObject());
 	    	colThoiGian.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue().getTime()));
 	    	
+	    	listM = Exchange_DAO.findAll("hnx");
+	    	colGiaKL.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
+	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
+	                return new TableCell<Exchange, Double>() {
+
+	                    @Override
+	                    public void updateItem(Double item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (!isEmpty()) {	
+//	                        		System.out.println(listM.get(this.getIndex()).getRefer());
+	                        		if(item.doubleValue()>listM.get(this.getIndex()).getRefer()) {
+	                        			this.setTextFill(Color.GREEN);
+	                        			setText(item.toString());                        		
+	                        		}
+	                        		else {
+	                        			this.setTextFill(Color.RED);
+	                        			setText(item.toString());
+	                        		}
+	                        }
+	                    }
+	                };
+	            }
+	        });
+	    	colKL.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
+	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
+	                return new TableCell<Exchange, Double>() {
+
+	                    @Override
+	                    public void updateItem(Double item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (!isEmpty()) {	
+//	                        		System.out.println(listM.get(this.getIndex()).getRefer());
+	                        		if(item.doubleValue()>listM.get(this.getIndex()).getRefer()) {
+	                        			this.setTextFill(Color.GREEN);
+	                        			setText(item.toString());                        		
+	                        		}
+	                        		else {
+	                        			this.setTextFill(Color.RED);
+	                        			setText(item.toString());
+	                        		}
+	                        }
+	                    }
+	                };
+	            }
+	        });
+	    	colCao.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
+	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
+	                return new TableCell<Exchange, Double>() {
+
+	                    @Override
+	                    public void updateItem(Double item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (!isEmpty()) {	
+//	                        		System.out.println(listM.get(this.getIndex()).getRefer());
+	                        		if(item.doubleValue()>listM.get(this.getIndex()).getRefer()) {
+	                        			this.setTextFill(Color.GREEN);
+	                        			setText(item.toString());                        		
+	                        		}
+	                        		else {
+	                        			this.setTextFill(Color.RED);
+	                        			setText(item.toString());
+	                        		}
+	                        }
+	                    }
+	                };
+	            }
+	        });
+	    	colThap.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
+	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
+	                return new TableCell<Exchange, Double>() {
+
+	                    @Override
+	                    public void updateItem(Double item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (!isEmpty()) {	
+//	                        		System.out.println(listM.get(this.getIndex()).getRefer());
+	                        		if(item.doubleValue()>listM.get(this.getIndex()).getRefer()) {
+	                        			this.setTextFill(Color.GREEN);
+	                        			setText(item.toString());                        		
+	                        		}
+	                        		else {
+	                        			this.setTextFill(Color.RED);
+	                        			setText(item.toString());
+	                        		}
+	                        }
+	                    }
+	                };
+	            }
+	        });
 	    	
-	    	listM = HNX_DAO.findAll();
 	    	
 	    	table.setItems(listM);
-//	    	barchart.getData().clear();
-//	    	barchart_show(barchart);
+	    	barchart.getData().clear();
+	    	barchart_show(barchart);
 	    	}catch(Exception e1) {
 	    		e1.printStackTrace();
 	    	}
@@ -187,18 +296,10 @@ public class Controller_HNX {
 	    public void refill() throws JSONException, IOException {
 	    	if(table.getItems().isEmpty())
 	    	{
-	    		HNX_Controller.handle();
+	    		Exchange_Controller.handle("hnx");
 	    	}
 	    	else {
-	    		HNX_Controller.update();
+	    		Exchange_Controller.update("hnx");
 	    	}
-	    }
-	    public void back(ActionEvent e) throws IOException {
-	    	Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("Main.fxml"));
-			Parent GDTT_HoseView = loader.load();
-			Scene scene = new Scene(GDTT_HoseView);
-			stage.setScene(scene);
 	    }
 }

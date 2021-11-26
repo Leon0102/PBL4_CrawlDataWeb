@@ -8,9 +8,11 @@ import java.util.TimerTask;
 
 import org.json.JSONException;
 
-import Controller.GDTT_Hose_Controller;
-import DAO.GDTT_Hose_DAO;
-import Model.GDTT_Hose;
+import Controller.GDTT_Exchange_Controller;
+import Controller.JsonReader;
+import DAO.GDTT_Exchange_DAO;
+import Model.GDTT_Exchange;
+import Model.GDTT_Exchange;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -30,30 +32,48 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class Controller_GDTT_Hose {
 	@FXML 
-	private TableView<GDTT_Hose> table;
+	private TableView<GDTT_Exchange> table;
 	@FXML
     private Button Btn_Show;
 	@FXML
     private Button Btn_Refill;
 	@FXML
-    private TableColumn<GDTT_Hose, String> colId;
+    private TableColumn<GDTT_Exchange, String> colId;
     @FXML
-    private TableColumn<GDTT_Hose, Double> colPrice;
+    private TableColumn<GDTT_Exchange, Double> colPrice;
     @FXML
-    private TableColumn<GDTT_Hose, Integer> colAmount;
+    private TableColumn<GDTT_Exchange, Integer> colAmount;
     @FXML
-    private TableColumn<GDTT_Hose, Double> colValue;
+    private TableColumn<GDTT_Exchange, Double> colValue;
     @FXML
-    private TableColumn<GDTT_Hose, String> colTime;
+    private TableColumn<GDTT_Exchange, String> colTime;
     @FXML
 	Label dateTime;
+    @FXML
+    private Label responseCode;
+    @FXML
+    private Circle circle;
     
-    ObservableList<GDTT_Hose> listM = FXCollections.observableArrayList();
+    public void responseCodeChange() throws IOException {
+    	int code = JsonReader.getResponseCode("https://banggia.cafef.vn/TTHandler.ashx?center=1");
+    	String kq = String.valueOf(code);
+    	responseCode.setText(kq);
+    	if(kq.equals("200"))
+    	{
+    		circle.setFill(Color.GREEN);    		
+    	}else {
+    		circle.setFill(Color.RED);
+    	}
+    }
     
-    public void initialize() {
+    ObservableList<GDTT_Exchange> listM = FXCollections.observableArrayList();
+    
+    public void initialize() throws IOException {
     	Handle.initClock(dateTime);
     	show();
     	new Timer().scheduleAtFixedRate(new TimerTask(){
@@ -61,21 +81,21 @@ public class Controller_GDTT_Hose {
 		    public void run(){
 		    	Platform.runLater(() -> {
 	                try {
-						refill();
+	                	refill();
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (IOException e) {
+					} 
+	                catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	                show();
 	            });
 		    }
-		},1000,10000);	
+		},1000,300000);	
 	}
-    public void show() {
-    	
+    public void show() throws IOException {
+    	responseCodeChange();
     	
     	colId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
     	colPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
@@ -83,16 +103,16 @@ public class Controller_GDTT_Hose {
     	colValue.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().getValue()).asObject());
     	colTime.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue().getTime()));
     	
-    	listM = GDTT_Hose_DAO.findAll();
+    	listM = GDTT_Exchange_DAO.findAll("hose");
     	table.setItems(listM);
     }
     public void refill() throws JSONException, IOException {
     	if(table.getItems().isEmpty())
     	{
-    		GDTT_Hose_Controller.handle();
+    		GDTT_Exchange_Controller.handle("hose");
     	}
     	else {
-    		GDTT_Hose_Controller.update();
+    		GDTT_Exchange_Controller.update("hose");
     	}
     }
     public void back(ActionEvent e) throws IOException {
@@ -102,5 +122,8 @@ public class Controller_GDTT_Hose {
 		Parent GDTT_HoseView = loader.load();
 		Scene scene = new Scene(GDTT_HoseView);
 		stage.setScene(scene);
+    }
+    public static Object getValueAt(TableView<GDTT_Exchange> table, int column, int row) {
+        return table.getColumns().get(column).getCellObservableValue(row).getValue();
     }
 }

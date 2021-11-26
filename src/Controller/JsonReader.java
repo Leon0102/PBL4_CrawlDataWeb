@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -22,13 +23,18 @@ public class JsonReader {
 	    }
 	    return sb.toString();
 	  }
-
+	  public static int getResponseCode(String url) throws IOException {
+		  	URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con.setRequestMethod("GET");
+			int responseCode = con.getResponseCode();
+			System.out.println("GET Response Code :: " + responseCode);
+			return responseCode;
+	  }
 	  public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-	    URL obj = new URL(url);
+		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod("GET");
-		int responseCode = con.getResponseCode();
-		System.out.println("GET Response Code :: " + responseCode);
+		int responseCode = getResponseCode(url);
 		if (responseCode == HttpURLConnection.HTTP_OK)
 			{
 		    BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -42,11 +48,9 @@ public class JsonReader {
 			}	
 	  }
 	  public static JSONArray readJsonFromUrlArr(String url) throws IOException, JSONException {
-		  URL obj = new URL(url);
+		  	URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-			con.setRequestMethod("GET");
-			int responseCode = con.getResponseCode();
-			System.out.println("GET Response Code :: " + responseCode);
+			int responseCode = getResponseCode(url);
 			if (responseCode == HttpURLConnection.HTTP_OK)
 				{
 			    BufferedReader rd = new BufferedReader(new InputStreamReader(con.getInputStream()));

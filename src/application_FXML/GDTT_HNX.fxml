@@ -4,8 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="677.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_GDTT_HNX">
@@ -19,13 +19,21 @@
             <TableColumn fx:id="colTime" prefWidth="391.19989013671875" text="Time" />
         </columns>
       </TableView>
-      <TextField layoutX="309.0" layoutY="26.0" />
-      <Button fx:id="Btn_Show" layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#show" prefHeight="39.0" prefWidth="108.0" text="Show" />
-      <Button fx:id="Btn_Refill" layoutX="14.0" layoutY="226.0" mnemonicParsing="false" onAction="#refill" prefHeight="39.0" prefWidth="108.0" text="Refill Data" />
-      <Button fx:id="Btn_Show1" layoutX="14.0" layoutY="120.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="108.0" text="Back" />
-      <Label fx:id="dateTime" layoutX="14.0" layoutY="21.0" prefHeight="34.0" prefWidth="258.0" text="Label" textFill="#194bbf">
+      <Button fx:id="Btn_Show" layoutX="14.0" layoutY="232.0" mnemonicParsing="false" onAction="#show" prefHeight="39.0" prefWidth="108.0" text="Reload Data" />
+      <Label fx:id="dateTime" layoutX="14.0" layoutY="51.0" prefHeight="34.0" prefWidth="258.0" text="Label" textFill="#194bbf">
          <font>
             <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Circle fx:id="circle" fill="DODGERBLUE" layoutX="232.0" layoutY="27.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+      <Label layoutX="14.0" layoutY="17.0" prefHeight="20.0" prefWidth="150.0" text="HTTP RESPONSE CODE:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="responseCode" layoutX="174.0" layoutY="14.0" prefHeight="26.0" prefWidth="58.0" text="Label">
+         <font>
+            <Font size="16.0" />
          </font>
       </Label>
    </children>

@@ -5,11 +5,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -17,11 +19,10 @@ import java.util.ResourceBundle;
 import Controller.ConditionMail_BLL;
 import Controller.SendMail_Controller;
 import DAO.ConditionMail_DAO;
+import DAO.Email_DAO;
 import DAO.Exchange_DAO;
-import DAO.Hose_DAO;
+
 import Model.ConditionMail;
-import Model.GDTT_Hose;
-import Model.Hose;
 import Model.Selected_Condition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -51,22 +52,89 @@ public class SendMailController {
 	@FXML private TextField txtDtnnEnd;
 	@FXML private TableView<String> tableIdStock;
 	@FXML private TableColumn<String, String> colIdStock;
-	@FXML private ListView<Hose> listviewIdStock;
+	private ObservableList<String> list;
 	//@FXML private TableColumn<String> colIdStock;
 	
 	public void initialize() {
+		tableIdStock.setRowFactory(tv ->{
+			TableRow<String> row=new TableRow<>();
+			row.setOnMouseClicked(event ->{
+				if(event.getClickCount()==2&& (!row.isEmpty()))
+				{	
+					String idStock=row.getItem();
+					System.out.println("Double click on: "+idStock);
+					onClickRow(idStock);
+				}
+			});
+			return row;
+		});
+		txtEmail.setText(Email_DAO.GetEmail());
 		cbbExchange.setItems(Exchange_DAO.GetExchangeName());
 		cbbExchange.setPromptText(Exchange_DAO.GetExchangeName().get(0));
 		cbbIdStock.setItems(Exchange_DAO.GetStockId("Hose"));
 		cbbIdStock.setPromptText(Exchange_DAO.GetStockId("Hose").get(0));
 		try {
 			colIdStock.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue()));
+			LoadTable();
 			
-			tableIdStock.setItems(ConditionMail_DAO.GetIdStock());
 		}catch(Exception e) {
 			
 		}
     }
+	private void onClickRow(String idStock) {
+		DeleteCondition();
+		ConditionMail condition= ConditionMail_BLL.GetConditionMail(idStock);
+		if(condition.PriceKLStart!=condition.PriceKLEnd) {
+			cbPriceKL.setSelected(true);
+			txtPriceKLStart.setText(String.valueOf(condition.PriceKLStart));
+			txtPriceKLEnd.setText(String.valueOf(condition.PriceKLEnd));
+		}
+		if(condition.PriceBuyStart!=condition.PriceBuyEnd) {
+			cbPriceBuy.setSelected(true);
+			txtPriceBuyStart.setText(String.valueOf(condition.PriceBuyStart));
+			txtPriceBuyEnd.setText(String.valueOf(condition.PriceBuyEnd));
+		}
+		if(condition.PriceSellStart!=condition.PriceSellEnd) {
+			cbPriceSell.setSelected(true);
+			txtPriceSellStart.setText(String.valueOf(condition.PriceSellStart));
+			txtPriceSellEnd.setText(String.valueOf(condition.PriceSellEnd));
+		}
+		if(condition.AmountStart!=condition.AmountEnd) {
+			cbAmount.setSelected(true);
+			txtAmountStart.setText(String.valueOf(condition.AmountStart));
+			txtAmountEnd.setText(String.valueOf(condition.AmountEnd));
+		}
+		if(condition.DTNNStart!=condition.DTNNEnd) {
+			cbDTNN.setSelected(true);
+			txtDtnnStart.setText(String.valueOf(condition.DTNNStart));
+			txtDtnnEnd.setText(String.valueOf(condition.DTNNEnd));
+		}
+	}
+	public void DeleteCondition() {
+		cbPriceKL.setSelected(false);
+		txtPriceKLStart.setText(String.valueOf(""));
+		txtPriceKLEnd.setText("");
+		
+		cbPriceBuy.setSelected(false);
+		txtPriceBuyStart.setText("");
+		txtPriceBuyEnd.setText("");
+		
+		cbPriceSell.setSelected(false);
+		txtPriceSellStart.setText("");
+		txtPriceSellEnd.setText("");
+		
+		cbAmount.setSelected(false);
+		txtAmountStart.setText("");
+		txtAmountEnd.setText("");
+		
+		cbDTNN.setSelected(false);
+		txtDtnnStart.setText("");
+		txtDtnnEnd.setText("");
+	}
+	public void LoadTable() {
+		list=ConditionMail_DAO.GetIdStock();
+		tableIdStock.setItems(list);
+	}
 	public void changeCbbExchange() {
 		try {
 			int s = cbbExchange.getSelectionModel().getSelectedIndex();
@@ -92,9 +160,7 @@ public class SendMailController {
 	public void SaveEmail()
 	{	
 		String email=txtEmail.getText();
-		txtPriceKLStart.setText(email);
 		DAO.Email_DAO.Insert(email);
-		SendMail_Controller.sendmail(email, null);
 	}
 	public void SaveStock()
 	{
@@ -150,23 +216,27 @@ public class SendMailController {
 			Double.parseDouble(priceSellEnd),
 			Double.parseDouble(priceBuyStart),
 			Double.parseDouble(priceBuyEnd),
-			Integer.parseInt(amountStart),
-			Integer.parseInt(amountEnd),
-			Integer.parseInt(dtnnStart),
-			Integer.parseInt(dtnnEnd)	
+			Double.parseDouble(amountStart),
+			Double.parseDouble(amountEnd),
+			Double.parseDouble(dtnnStart),
+			Double.parseDouble(dtnnEnd)	
 		);
+		
 		ConditionMail_BLL.InsertConditionMail(c);
 		Handle.infoBox("Save Successfully!", null, "Warning!");
-		 
+		LoadTable();
 	}
-	public void sendMail()
+	public void sendMail() throws SQLException
 	{
 		String mck="";
 		ObservableList<String> listM = ConditionMail_DAO.GetIdStock();
 		for (String item : listM) {
-			mck += ConditionMail_BLL.NotifyStock(item)+"\n";
+			mck += ConditionMail_BLL.NotifyStock(item,"hose")+"\n"; // NOTE
 		}
 		SendMail_Controller.sendmail(txtEmail.getText(), mck);
 		Handle.infoBox("Send Email!", null, "Notification");
+		
+		//TEST UPDATE DBS
+		
 	}
 }

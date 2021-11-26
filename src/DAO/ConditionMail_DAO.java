@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import Model.ConditionComponent;
 import Model.ConditionMail;
-import Model.GDTT_Hose;
+
 import Model.Selected_Condition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +14,7 @@ public class ConditionMail_DAO {
 
 	public static void InsertConditionMail(ConditionMail c)
 	{
+		System.out.println("Insert");
 		int priceKL=0,priceSell=0,priceBuy=0,amount=0,dtnn=0;
 		if(c.PriceKLStart!=c.PriceKLEnd) priceKL=1;
 		if(c.PriceSellStart!=c.PriceSellEnd)priceSell=1;
@@ -36,27 +37,11 @@ public class ConditionMail_DAO {
 			stm.executeUpdate();
 			stm.close();
 			con.close();
-			if(priceKL==1)
-			{
-				 InsertCondition("condition_pricekl", c.IdStock, c.PriceKLStart, c.PriceKLEnd);
-			}
-			if(priceSell==1)
-			{
-				 InsertCondition("condition_pricesell", c.IdStock, c.PriceSellStart, c.PriceSellEnd);
-			}
-			if(priceBuy==1)
-			{
-				 InsertCondition("condition_pricebuy", c.IdStock, c.PriceBuyStart, c.PriceBuyEnd);
-			}
-			if(amount==1)
-			{
-				 InsertCondition("condition_amount", c.IdStock, c.AmountStart, c.AmountEnd);
-			}
-			if(dtnn==1)
-			{
-				 InsertCondition("condition_dtnn", c.IdStock, c.DTNNStart, c.DTNNEnd);
-			}
-			
+			InsertCondition("condition_pricekl", c.IdStock, c.PriceKLStart, c.PriceKLEnd);
+			InsertCondition("condition_pricesell", c.IdStock, c.PriceSellStart, c.PriceSellEnd);
+			InsertCondition("condition_pricebuy", c.IdStock, c.PriceBuyStart, c.PriceBuyEnd);
+			InsertCondition("condition_amount", c.IdStock, c.AmountStart, c.AmountEnd);
+			InsertCondition("condition_dtnn", c.IdStock, c.DTNNStart, c.DTNNEnd);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,6 +58,61 @@ public class ConditionMail_DAO {
 		 stm.setDouble(3, end);
 		 stm.executeUpdate();
 		 stm.close();
+	}
+	public static void UpdateConditionMail(ConditionMail c)
+	{
+		System.out.println("Update");
+		int priceKL=0,priceSell=0,priceBuy=0,amount=0,dtnn=0;
+		if(c.PriceKLStart!=c.PriceKLEnd) priceKL=1;
+		if(c.PriceSellStart!=c.PriceSellEnd)priceSell=1;
+		if(c.PriceBuyStart!=c.PriceBuyEnd)priceBuy=1;
+		if(c.AmountStart!=c.AmountEnd)amount=1;
+		if(c.DTNNStart!=c.DTNNEnd)dtnn=1;
+		try {
+			Connection con = MySQLConnection.connectDb();
+			//
+			String query = "UPDATE `condition_mail` SET`PriceKL`=?,`PriceSell`=?,"
+					+ "`PriceBuy`=?,`Amount`=?,`DTNN`=? WHERE `IdStock` =?";
+			PreparedStatement stm = con.prepareStatement(query);
+
+			stm.setInt(1, priceKL);
+			stm.setInt(2, priceSell);
+			stm.setInt(3, priceBuy);
+			stm.setInt(4, amount);
+			stm.setInt(5, dtnn);
+			stm.setString(6, c.IdStock);
+			stm.executeUpdate();
+			stm.close();
+			con.close();
+
+			UpdateCondition("condition_pricekl", c.IdStock, c.PriceKLStart, c.PriceKLEnd);
+			UpdateCondition("condition_pricesell", c.IdStock, c.PriceSellStart, c.PriceSellEnd);
+			UpdateCondition("condition_pricebuy", c.IdStock, c.PriceBuyStart, c.PriceBuyEnd);
+			UpdateCondition("condition_amount", c.IdStock, c.AmountStart, c.AmountEnd);
+			UpdateCondition("condition_dtnn", c.IdStock, c.DTNNStart, c.DTNNEnd);	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public static void UpdateCondition(String table, String id,double start,double end) throws SQLException
+	{
+		Connection con = MySQLConnection.connectDb();
+		String query="UPDATE "+table+" SET `Start`=?,`End`=? WHERE IdStock= ?";
+		 PreparedStatement stm = con.prepareStatement(query); 
+		 stm.setDouble(1, start);
+		 stm.setDouble(2, end);
+		 stm.setString(3, id);
+		 stm.executeUpdate();
+		 stm.close();
+	}
+	public static boolean IsExistStock(String idStock) throws SQLException
+	{
+		Connection conn = MySQLConnection.connectDb();
+		String query = "SELECT IdStock FROM `condition_mail` WHERE IdStock=? ";
+		PreparedStatement stm = conn.prepareStatement(query);
+		stm.setString(1, idStock);
+		ResultSet rs = stm.executeQuery();
+		return rs.next();
 	}
 	public static ObservableList<String> GetIdStock()
 	{
