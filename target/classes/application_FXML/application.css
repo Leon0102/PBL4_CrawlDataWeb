@@ -4,3 +4,16 @@
 }
 .default-color0.chart-bar { -fx-bar-fill: #8600f7 }
 .default-color1.chart-bar { -fx-bar-fill: #31538f }
+
+.addbutton{
+     -fx-background-color:  #3196E2;
+    -fx-background-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-fill: black;
+}
+.button {
+    -fx-background-color:  #3196E2;
+    -fx-background-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+}

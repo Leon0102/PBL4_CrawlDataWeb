@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mysql.cj.MysqlConnection;
+
 import Model.ConditionComponent;
 import Model.ConditionMail;
 
@@ -143,7 +145,7 @@ public class ConditionMail_DAO {
 					+ " PriceSell=1 or PriceBuy=1 or Amount=1 or DTNN=1) and IdStock='"+idStock+"'";
 			PreparedStatement stm = conn.prepareStatement(query);
 			ResultSet rs = stm.executeQuery();
-			rs.next();
+			while(rs.next()) {
 			data = new Selected_Condition(
 				rs.getString(1),
 				rs.getString(2),
@@ -153,7 +155,7 @@ public class ConditionMail_DAO {
 				rs.getInt(6),
 				rs.getInt(7)
 			);
-			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -181,5 +183,49 @@ public class ConditionMail_DAO {
 			e.printStackTrace();
 		}
 		return data;
+	}
+	public static ObservableList<ConditionMail> GetAllCondition()
+	{
+		
+		String query="SELECT Exchange,condition_mail.IdStock,condition_pricekl.Start AS 'klStart' ,condition_pricekl.End AS 'klEnd',\n"
+				+ "condition_pricesell.Start AS 'sellStart',condition_pricesell.End AS 'sellEnd',\n"
+				+ "condition_pricebuy.Start AS 'buyStart',condition_pricebuy.End AS 'buyEnd',\n"
+				+ "condition_amount.Start AS 'amountStart',condition_amount.End AS 'amountEnd',\n"
+				+ "condition_dtnn.Start AS 'dtnnStart',condition_dtnn.End AS 'dtnnEnd'\n"
+				+ "FROM `condition_mail`\n"
+				+ "JOIN condition_pricekl ON condition_mail.IdStock=condition_pricekl.IdStock\n"
+				+ "JOIN condition_pricesell ON condition_mail.IdStock=condition_pricesell.IdStock\n"
+				+ "JOIN condition_pricebuy ON condition_mail.IdStock=condition_pricebuy.IdStock\n"
+				+ "JOIN condition_amount ON condition_mail.IdStock=condition_amount.IdStock\n"
+				+ "JOIN condition_dtnn ON condition_mail.IdStock=condition_dtnn.IdStock WHERE PriceKL=1 or PriceSell=1 or PriceBuy=1 or Amount=1 or DTNN=1";
+		ObservableList<ConditionMail> data = FXCollections.observableArrayList();
+		Connection conn= MySQLConnection.connectDb();
+		try {
+			PreparedStatement stm=conn.prepareStatement(query);
+			ResultSet rs=stm.executeQuery();
+			while(rs.next())
+			{
+				ConditionMail c=new ConditionMail(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getDouble(3),
+						rs.getDouble(4),
+						rs.getDouble(5),
+						rs.getDouble(6),
+						rs.getDouble(7),
+						rs.getDouble(8),
+						rs.getDouble(9),
+						rs.getDouble(10),
+						rs.getDouble(11),
+						rs.getDouble(12)
+						);
+				data.add(c);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return data;
+		
 	}
 }

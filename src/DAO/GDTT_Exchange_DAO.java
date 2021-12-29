@@ -3,6 +3,7 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import Model.GDTT_Exchange;
 import javafx.collections.FXCollections;
@@ -66,5 +67,48 @@ public class GDTT_Exchange_DAO {
 			e.printStackTrace();
 		}
 	}
-	
+	public static void deleteAll(String name)
+    {
+        String query="DELETE FROM gdtt_"+ name; // name: hnx || hose
+        Connection con = MySQLConnection.connectDb();
+        try {
+            PreparedStatement stm=con.prepareStatement(query);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.print(e);
+        }
+
+    }
+	public static int getSumAmount(String nameExchange) {		
+		try {
+			Connection con = MySQLConnection.connectDb();
+			String query = "SELECT SUM(amount) FROM gdtt_"+nameExchange;
+			PreparedStatement stm = con.prepareStatement(query);
+			ResultSet rs = stm.executeQuery();
+			rs.next();			
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+		}
+		
+		public static double getSumValue(String nameExchange) {
+			try {
+				Connection con = MySQLConnection.connectDb();
+				String query = "SELECT SUM(value) FROM gdtt_"+nameExchange;
+				PreparedStatement stm = con.prepareStatement(query);
+				ResultSet rs = stm.executeQuery();
+				rs.next();
+				return rs.getDouble(1);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
+			
+		}
 }

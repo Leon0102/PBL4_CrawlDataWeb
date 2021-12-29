@@ -42,9 +42,9 @@
             <TableColumn fx:id="colGiaBan1" editable="false" prefWidth="40.79998779296875" text="Giá 1" />
             <TableColumn fx:id="colKLBan1" editable="false" prefWidth="43.20001220703125" text="KL1" />
             <TableColumn fx:id="colGiaBan2" editable="false" prefWidth="46.4000244140625" text="Giá 2" />
-            <TableColumn fx:id="colKLBan2" editable="false" prefWidth="57.5999755859375" text="KL2" />
-            <TableColumn fx:id="colGiaBan3" editable="false" prefWidth="99.20001220703125" text="Giá 3" />
-            <TableColumn fx:id="colKLBan3" editable="false" minWidth="0.0" prefWidth="0.0" text="KL3" />
+            <TableColumn fx:id="colKLBan2" editable="false" prefWidth="48.0" text="KL2" />
+            <TableColumn fx:id="colGiaBan3" editable="false" prefWidth="51.20001220703125" text="Giá 3" />
+               <TableColumn fx:id="colKLBan3" editable="false" prefWidth="47.20001220703125" text="KL3" />
          </columns>
       </TableColumn>
       <TableColumn fx:id="colCao" editable="false" minWidth="0.0" prefWidth="42.40008544921875" text="Cao " />

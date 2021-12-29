@@ -1,4 +1,4 @@
-package Controller;
+package BLL;
 
 public class SMailConstant {
  

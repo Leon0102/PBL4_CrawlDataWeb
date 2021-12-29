@@ -15,7 +15,7 @@
 <AnchorPane prefHeight="663.0" prefWidth="1351.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_Hose">
 	<TableView fx:id="table" layoutX="16.0" layoutY="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <columns>
-    <TableColumn fx:id="colId" editable="false" prefWidth="38.39999467134476" sortType="DESCENDING" text="MaCK" />
+    <TableColumn fx:id="colId" editable="false" prefWidth="38.39999467134476" text="MaCK" />
       <TableColumn fx:id="colTC" editable="false" minWidth="4.79998779296875" prefWidth="35.999996185302734" text="T.C" />
       <TableColumn fx:id="colTran" editable="false" minWidth="9.600006103515625" prefWidth="47.199981689453125" text="Trần" />
       <TableColumn fx:id="colSan" editable="false" prefWidth="42.399993896484375" text="Sàn" />
@@ -42,9 +42,9 @@
             <TableColumn fx:id="colGiaBan1" editable="false" prefWidth="40.79998779296875" text="Giá 1" />
             <TableColumn fx:id="colKLBan1" editable="false" prefWidth="43.20001220703125" text="KL1" />
             <TableColumn fx:id="colGiaBan2" editable="false" prefWidth="46.4000244140625" text="Giá 2" />
-            <TableColumn fx:id="colKLBan2" editable="false" prefWidth="57.5999755859375" text="KL2" />
-            <TableColumn fx:id="colGiaBan3" editable="false" prefWidth="99.20001220703125" text="Giá 3" />
-            <TableColumn fx:id="colKLBan3" editable="false" minWidth="0.0" prefWidth="0.0" text="KL3" />
+            <TableColumn fx:id="colKLBan2" editable="false" prefWidth="48.0" text="KL2" />
+            <TableColumn fx:id="colGiaBan3" editable="false" prefWidth="51.20001220703125" text="Giá 3" />
+               <TableColumn fx:id="colKLBan3" editable="false" prefWidth="47.20001220703125" text="KL3" />
          </columns>
       </TableColumn>
       <TableColumn fx:id="colCao" editable="false" minWidth="0.0" prefWidth="42.40008544921875" text="Cao " />

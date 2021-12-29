@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/Controller/SendMail_Controller.java=UTF-8
+encoding//src/BLL/SendMail_BLL.java=UTF-8
 encoding//src/application/Controller_GDTT_Hose.java=UTF-8
 encoding//src/application/Controller_HNX.java=UTF-8
 encoding//src/application/Controller_Hose.java=UTF-8

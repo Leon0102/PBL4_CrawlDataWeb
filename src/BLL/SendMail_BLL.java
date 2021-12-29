@@ -1,24 +1,18 @@
-package Controller;
+package BLL;
 
 import java.util.Properties;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
-
 import Model.Exchange;
 import javafx.collections.ObservableList;
 
-public class SendMail_Controller {
+public class SendMail_BLL {
 
    public static void sendmail(String s, String kq) {
 	   
        try {
-    	   	Properties props = new Properties();
-   			props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-   			props.put("mail.smtp.port", "587"); //TLS Port
-   			props.put("mail.smtp.auth", "true"); //enable authentication
-   			props.put("mail.smtp.starttls.enable", "true"); //enable 
            Email email = new SimpleEmail();
 
            // Cấu hình thông tin Email Server
@@ -34,7 +28,7 @@ public class SendMail_Controller {
            email.setFrom(SMailConstant.MY_EMAIL);
 
            // Tiêu đề
-           email.setSubject("Test Email");
+           email.setSubject("Notification!!!");
 
            // Nội dung email
 

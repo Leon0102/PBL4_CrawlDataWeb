@@ -1,4 +1,4 @@
-package Controller;
+package BLL;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class JsonReader {
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 			int responseCode = con.getResponseCode();
-			System.out.println("GET Response Code :: " + responseCode);
+//			System.out.println("GET Response Code :: " + responseCode);
 			return responseCode;
 	  }
 	  public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {

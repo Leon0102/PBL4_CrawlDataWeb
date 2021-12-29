@@ -3,29 +3,23 @@ package application;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import Controller.ConditionMail_BLL;
-import Controller.SendMail_Controller;
+import BLL.ConditionMail_BLL;
+import BLL.SendMail_BLL;
 import DAO.ConditionMail_DAO;
 import DAO.Email_DAO;
 import DAO.Exchange_DAO;
 
 import Model.ConditionMail;
-import Model.Selected_Condition;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
@@ -50,20 +44,36 @@ public class SendMailController {
 	@FXML private TextField txtAmountEnd;
 	@FXML private TextField txtDtnnStart;
 	@FXML private TextField txtDtnnEnd;
-	@FXML private TableView<String> tableIdStock;
-	@FXML private TableColumn<String, String> colIdStock;
-	private ObservableList<String> list;
+	@FXML private TableView<ConditionMail> tableIdStock;
+	@FXML private TableColumn<ConditionMail, String> colExchange;
+	@FXML private TableColumn<ConditionMail, String> colIdStock;
+	@FXML private TableColumn<ConditionMail, Double> colKLStart;
+	@FXML private TableColumn<ConditionMail, Double> colKLEnd;
+	@FXML private TableColumn<ConditionMail, Double> colSellStart;
+	@FXML private TableColumn<ConditionMail, Double> colSellEnd;
+	@FXML private TableColumn<ConditionMail, Double> colBuyStart;
+	@FXML private TableColumn<ConditionMail, Double> colBuyEnd;
+	@FXML private TableColumn<ConditionMail, Double> colAmountStart;
+	@FXML private TableColumn<ConditionMail, Double> colAmountEnd;
+	@FXML private TableColumn<ConditionMail, Double> colDtnnStart;
+	@FXML private TableColumn<ConditionMail, Double> colDtnnEnd;
+	private ObservableList<ConditionMail> list;
 	//@FXML private TableColumn<String> colIdStock;
 	
 	public void initialize() {
 		tableIdStock.setRowFactory(tv ->{
-			TableRow<String> row=new TableRow<>();
+			TableRow<ConditionMail> row=new TableRow<>();
 			row.setOnMouseClicked(event ->{
 				if(event.getClickCount()==2&& (!row.isEmpty()))
 				{	
-					String idStock=row.getItem();
+					String idStock=row.getItem().IdStock;
 					System.out.println("Double click on: "+idStock);
-					onClickRow(idStock);
+					try {
+						onClickRow(idStock);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			return row;
@@ -74,15 +84,27 @@ public class SendMailController {
 		cbbIdStock.setItems(Exchange_DAO.GetStockId("Hose"));
 		cbbIdStock.setPromptText(Exchange_DAO.GetStockId("Hose").get(0));
 		try {
-			colIdStock.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue()));
+			colExchange.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue().Exchange));
+			colIdStock.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue().IdStock));
+			colKLStart.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().PriceKLStart).asObject());
+			colKLEnd.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().PriceKLEnd).asObject());
+			colSellStart.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().PriceSellStart).asObject());
+			colSellEnd.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().PriceSellEnd).asObject());
+			colBuyStart.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().PriceBuyStart).asObject());
+			colBuyEnd.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().PriceBuyEnd).asObject());
+			colAmountStart.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().AmountStart).asObject());
+			colAmountEnd.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().AmountEnd).asObject());
+			colDtnnStart.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().DTNNStart).asObject());
+			colDtnnEnd.setCellValueFactory(cellData ->new SimpleDoubleProperty(cellData.getValue().DTNNEnd).asObject());
 			LoadTable();
 			
 		}catch(Exception e) {
 			
 		}
     }
-	private void onClickRow(String idStock) {
+	private void onClickRow(String idStock) throws SQLException {
 		DeleteCondition();
+		cbbIdStock.setValue(idStock);
 		ConditionMail condition= ConditionMail_BLL.GetConditionMail(idStock);
 		if(condition.PriceKLStart!=condition.PriceKLEnd) {
 			cbPriceKL.setSelected(true);
@@ -132,7 +154,8 @@ public class SendMailController {
 		txtDtnnEnd.setText("");
 	}
 	public void LoadTable() {
-		list=ConditionMail_DAO.GetIdStock();
+		list=ConditionMail_DAO.GetAllCondition();
+		System.out.print(list.size());
 		tableIdStock.setItems(list);
 	}
 	public void changeCbbExchange() {
@@ -156,6 +179,10 @@ public class SendMailController {
 			catch(Exception e1) {
 				e1.printStackTrace();
 			}
+	}
+	public void changeCbbIdStock() throws SQLException {
+		onClickRow(cbbIdStock.getSelectionModel().getSelectedItem());
+		
 	}
 	public void SaveEmail()
 	{	
@@ -208,7 +235,7 @@ public class SendMailController {
 		}
 		ConditionMail c=new ConditionMail
 		(
-			cbbExchange.getValue(),
+			cbbExchange.getPromptText(),
 			cbbIdStock.getValue(),
 			Double.parseDouble(priceKLStart),
 			Double.parseDouble(priceKLEnd),
@@ -229,14 +256,11 @@ public class SendMailController {
 	public void sendMail() throws SQLException
 	{
 		String mck="";
-		ObservableList<String> listM = ConditionMail_DAO.GetIdStock();
-		for (String item : listM) {
-			mck += ConditionMail_BLL.NotifyStock(item,"hose")+"\n"; // NOTE
+		ObservableList<ConditionMail> listM = ConditionMail_DAO.GetAllCondition();
+		for (ConditionMail item : listM) {
+			mck += ConditionMail_BLL.NotifyStock(item.IdStock,item.Exchange)+"\n"; // NOTE
 		}
-		SendMail_Controller.sendmail(txtEmail.getText(), mck);
-		Handle.infoBox("Send Email!", null, "Notification");
-		
-		//TEST UPDATE DBS
-		
+		SendMail_BLL.sendmail(txtEmail.getText(), mck);
+		Handle.infoBox("Send Email!", null, "Notification");		
 	}
 }

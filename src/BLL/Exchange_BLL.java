@@ -1,4 +1,4 @@
-package Controller;
+package BLL;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,9 +7,10 @@ import org.json.JSONException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import DAO.Exchange_DAO;
 import Model.Exchange;
-public class Exchange_Controller {
+public class Exchange_BLL {
 
 	public static void handle(String exchangeName) throws JSONException, IOException {
 		JSONArray json;

@@ -8,10 +8,8 @@ import java.util.TimerTask;
 
 import org.json.JSONException;
 
-import Controller.Exchange_Controller;
-import Controller.GDTT_Exchange_Controller;
-import Controller.JsonReader;
-import Controller.Exchange_Controller;
+import BLL.Exchange_BLL;
+import BLL.JsonReader;
 import DAO.Exchange_DAO;
 import Model.Exchange;
 import Model.GDTT_Exchange;
@@ -126,10 +124,13 @@ public class Controller_HNX {
     }
 	
 	static ObservableList<Exchange> listM = FXCollections.observableArrayList();
+	static ObservableList<Exchange> listE = FXCollections.observableArrayList();
 	
 	public void initialize() {
 		Handle.initClock(dateTime);
 		show();
+		if(MainController.hnx == true) 
+		{
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 		    @Override
 		    public void run(){
@@ -143,27 +144,17 @@ public class Controller_HNX {
 	            });
 		    }
 		},3000,300000);	
+		MainController.hnx = false;
+		}
 	}
 	 public static void barchart_show(BarChart bc) {
-		 listM = Exchange_DAO.findAll("hnx");
+		 listE = Exchange_DAO.findTopDTNN("hnx");
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Đầu tư Nước Ngoài");
-		 for(Exchange items : listM) {
-			 if(items.getTotal_buy()>100)
-			 {				 
+		 for(Exchange items : listE) {			 
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getTotal_buy()));
-			 }
 		 }		 
 			 bc.getData().add(series);
-	 }
-	 public static void linechart_show(LineChart lc) {
-		 listM = Exchange_DAO.findTop("hnx");
-		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
-		 series.setName("Đồ thị Tham Chiếu Top 30");
-		 for(Exchange items : listM) {			 
-				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getRefer()));
-		 }
-		 lc.getData().add(series);
 	 }
 	 public void show() {
 	    	
@@ -196,6 +187,21 @@ public class Controller_HNX {
 	    	colThoiGian.setCellValueFactory(cellData ->new SimpleStringProperty(cellData.getValue().getTime()));
 	    	
 	    	listM = Exchange_DAO.findAll("hnx");
+	    	colTC.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
+	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
+	                return new TableCell<Exchange, Double>() {
+
+	                    @Override
+	                    public void updateItem(Double item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (!isEmpty()) {	
+	                        		this.setTextFill(Color.rgb(255, 51,153));    
+	                        		setText(item.toString()); 
+	                        }
+	                    }
+	                };
+	            }
+	        });
 	    	colGiaKL.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
 	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
 	                return new TableCell<Exchange, Double>() {
@@ -227,7 +233,7 @@ public class Controller_HNX {
 	                        super.updateItem(item, empty);
 	                        if (!isEmpty()) {	
 //	                        		System.out.println(listM.get(this.getIndex()).getRefer());
-	                        		if(item.doubleValue()>listM.get(this.getIndex()).getRefer()) {
+	                        	if(listM.get(this.getIndex()).getOrder_Price()>listM.get(this.getIndex()).getRefer())  {
 	                        			this.setTextFill(Color.GREEN);
 	                        			setText(item.toString());                        		
 	                        		}
@@ -296,10 +302,10 @@ public class Controller_HNX {
 	    public void refill() throws JSONException, IOException {
 	    	if(table.getItems().isEmpty())
 	    	{
-	    		Exchange_Controller.handle("hnx");
+	    		Exchange_BLL.handle("hnx");
 	    	}
 	    	else {
-	    		Exchange_Controller.update("hnx");
+	    		Exchange_BLL.update("hnx");
 	    	}
 	    }
 }

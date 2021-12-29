@@ -1,4 +1,4 @@
-package Controller;
+package BLL;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import DAO.GDTT_Exchange_DAO;
 import Model.GDTT_Exchange;
 
-public class GDTT_Exchange_Controller {
+public class GDTT_Exchange_BLL {
 	public static void handle(String exchangeName) throws JSONException, IOException {
 		JSONObject json;
 		if(exchangeName=="hose")json = JsonReader.readJsonFromUrl("https://banggia.cafef.vn/TTHandler.ashx?center=1");
@@ -67,5 +67,18 @@ public class GDTT_Exchange_Controller {
 		} catch(Exception e) {
 			
 		}
+	}
+	public static void deleteAll(String name)
+    {
+        GDTT_Exchange_DAO.deleteAll(name);
+    }
+	public static int getSumAmount(String exchangeName)
+	{
+		return GDTT_Exchange_DAO.getSumAmount(exchangeName);
+	}
+	
+	public static double getSumValue(String exchangeName)
+	{
+		return GDTT_Exchange_DAO.getSumValue(exchangeName);
 	}
 }

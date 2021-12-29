@@ -8,10 +8,9 @@ import java.util.TimerTask;
 
 import org.json.JSONException;
 
-import Controller.Exchange_Controller;
-import Controller.GDTT_Exchange_Controller;
-import Controller.JsonReader;
-import Controller.Exchange_Controller;
+import BLL.Exchange_BLL;
+import BLL.GDTT_Exchange_BLL;
+import BLL.JsonReader;
 import DAO.Exchange_DAO;
 import Model.Exchange;
 import javafx.application.Platform;
@@ -127,9 +126,12 @@ public class Controller_UPCOM {
     }
 	
 	static ObservableList<Exchange> listM = FXCollections.observableArrayList();
+	static ObservableList<Exchange> listE = FXCollections.observableArrayList();
 	public void initialize() {
 		Handle.initClock(dateTime);
 		show();
+		if(MainController.upcom == true)
+		{
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 		    @Override
 		    public void run(){
@@ -147,27 +149,17 @@ public class Controller_UPCOM {
 	            });
 		    }
 		},3000,300000);	
+		MainController.upcom = false;
+		}
 	}
 	 public static void barchart_show(BarChart bc) {
-		 listM = Exchange_DAO.findAll("upcom");
+		 listE = Exchange_DAO.findTopDTNN("upcom");
 		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		 series.setName("Đồ thị Đầu tư Nước Ngoài");
-		 for(Exchange items : listM) {
-			 if(items.getTotal_buy()>100)
-			 {				 
+		 for(Exchange items : listE) {			 
 				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getTotal_buy()));
-			 }
 		 }		 
 			 bc.getData().add(series);
-	 }
-	 public static void linechart_show(LineChart lc) {
-		 listM = Exchange_DAO.findTop("upcom");
-		 XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
-		 series.setName("Đồ thị Tham Chiếu Top 30");
-		 for(Exchange items : listM) {			 
-				 series.getData().add(new XYChart.Data<String, Double>(items.getId(),items.getRefer()));
-		 }
-		 lc.getData().add(series);
 	 }
 	 public void show() {
 	    	
@@ -201,6 +193,21 @@ public class Controller_UPCOM {
 	    	
 	    	
 	    	listM = Exchange_DAO.findAll("upcom");
+	    	colTC.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
+	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
+	                return new TableCell<Exchange, Double>() {
+
+	                    @Override
+	                    public void updateItem(Double item, boolean empty) {
+	                        super.updateItem(item, empty);
+	                        if (!isEmpty()) {	
+	                        		this.setTextFill(Color.rgb(255, 51,153));    
+	                        		setText(item.toString()); 
+	                        }
+	                    }
+	                };
+	            }
+	        });
 	    	colGiaKL.setCellFactory(new Callback<TableColumn<Exchange,Double>, TableCell<Exchange,Double>>() {
 	            public TableCell<Exchange, Double> call(TableColumn<Exchange,Double> param) {
 	                return new TableCell<Exchange, Double>() {
@@ -232,7 +239,7 @@ public class Controller_UPCOM {
 	                        super.updateItem(item, empty);
 	                        if (!isEmpty()) {	
 //	                        		System.out.println(listM.get(this.getIndex()).getRefer());
-	                        		if(item.doubleValue()>listM.get(this.getIndex()).getRefer()) {
+	                        	if(listM.get(this.getIndex()).getOrder_Price()>listM.get(this.getIndex()).getRefer())  {
 	                        			this.setTextFill(Color.GREEN);
 	                        			setText(item.toString());                        		
 	                        		}
@@ -300,10 +307,10 @@ public class Controller_UPCOM {
 	    public void refill() throws JSONException, IOException {
 	    	if(table.getItems().isEmpty())
 	    	{
-	    		Exchange_Controller.handle("upcom");
+	    		Exchange_BLL.handle("upcom");
 	    	}
 	    	else {
-	    		Exchange_Controller.update("upcom");
+	    		Exchange_BLL.update("upcom");
 	    	}
 	    }
 }
